@@ -1,0 +1,14 @@
+
+{
+  "skip_files": [
+    "deps/",
+    "test/",
+    "lib/nfl_rushing.ex",
+    "lib/nfl_rushing/application.ex",
+    "lib/nfl_rushing/repo.ex",
+    "lib/nfl_rushing_web.ex",
+    "lib/nfl_rushing_web/endpoint.ex",
+    "lib/nfl_rushing_web/router.ex",
+    "lib/nfl_rushing_web/gettext.ex"
+  ]
+}
