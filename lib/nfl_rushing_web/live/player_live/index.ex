@@ -2,6 +2,7 @@ defmodule NflRushingWeb.PlayerLive.Index do
   use NflRushingWeb, :live_view
 
   alias NflRushing.Records
+  alias NflRushing.Records.Player
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,5 +22,11 @@ defmodule NflRushingWeb.PlayerLive.Index do
 
   defp list_players do
     Records.list_players()
+  end
+
+  def format_longest_rush(player = %Player{}) do
+    touchdown_identifier = if player.longest_rush_had_a_touchdown?, do: "T", else: ""
+
+    "#{player.longest_rush}#{touchdown_identifier}"
   end
 end
