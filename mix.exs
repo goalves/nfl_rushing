@@ -60,7 +60,11 @@ defmodule NflRushing.MixProject do
       {:sobelow, "~> 0.8", only: :dev},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:flow, "~> 1.0"},
+      {:ex_machina, "~> 2.6.0", only: :test},
+      {:faker, "~> 0.16", only: :test},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 

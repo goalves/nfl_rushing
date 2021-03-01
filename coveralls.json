@@ -9,6 +9,7 @@
     "lib/nfl_rushing_web.ex",
     "lib/nfl_rushing_web/endpoint.ex",
     "lib/nfl_rushing_web/router.ex",
-    "lib/nfl_rushing_web/gettext.ex"
+    "lib/nfl_rushing_web/gettext.ex",
+    "lib/nfl_rushing_web/views/error_helpers.ex"
   ]
 }

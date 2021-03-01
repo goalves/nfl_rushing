@@ -1,2 +1,6 @@
 ExUnit.start()
+Faker.start()
+ExUnit.start(capture_log: true)
+{:ok, _} = Application.ensure_all_started(:ex_machina)
+{:ok, _} = Application.ensure_all_started(:mox)
 Ecto.Adapters.SQL.Sandbox.mode(NflRushing.Repo, :manual)
