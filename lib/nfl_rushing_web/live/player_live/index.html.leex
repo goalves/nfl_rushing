@@ -1,14 +1,5 @@
 <h1>Listing Players</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, NflRushingWeb.PlayerLive.FormComponent,
-    id: @player.id || :new,
-    title: @page_title,
-    action: @live_action,
-    player: @player,
-    return_to: Routes.player_index_path(@socket, :index) %>
-<% end %>
-
 <table>
   <thead>
     <tr>
@@ -51,15 +42,7 @@
         <td><%= player.rushing_20_yards_each %></td>
         <td><%= player.rushing_40_yards_each %></td>
         <td><%= player.fumbles %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.player_show_path(@socket, :show, player) %></span>
-          <span><%= live_patch "Edit", to: Routes.player_index_path(@socket, :edit, player) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: player.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<span><%= live_patch "New Player", to: Routes.player_index_path(@socket, :new) %></span>
