@@ -3,7 +3,7 @@ defmodule NflRushing.Data.Parser do
   alias NflRushing.Records.Player
 
   def parse_record(data) when is_map(data) do
-    with {:ok, parsed_data} <- parse_data(data),
+    with {:ok, parsed_data} when is_map(parsed_data) <- parse_data(data),
          {:ok, player = %Player{}} <- Player.new(parsed_data) do
       {:ok, player}
     else
@@ -16,7 +16,7 @@ defmodule NflRushing.Data.Parser do
 
   def parse_record(_), do: {:error, :invalid_data}
 
-  defp parse_data(data) do
+  defp parse_data(data) when is_map(data) do
     with {:ok, {longest_rush, has_touchdown?}} <- parse_longest_rush(data["Lng"]) do
       total_rushing_yards = parse_total_rushing_yards(data["Yds"])
       build_map(data, longest_rush, has_touchdown?, total_rushing_yards)
@@ -34,10 +34,7 @@ defmodule NflRushing.Data.Parser do
 
   defp parse_longest_rush(longest_rush), do: {:ok, {longest_rush, false}}
 
-  defp parse_total_rushing_yards(yards) when is_binary(yards) do
-    String.replace(yards, ",", "")
-  end
-
+  defp parse_total_rushing_yards(yards) when is_binary(yards), do: String.replace(yards, ",", "")
   defp parse_total_rushing_yards(yards), do: yards
 
   defp build_map(data, longest_rush, longest_rush_has_touchdown?, total_rushing_yards)
