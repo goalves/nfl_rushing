@@ -1,0 +1,48 @@
+<h1>Listing Players</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Team</th>
+      <th>Position</th>
+      <th>Attempts per game</th>
+      <th>Rushing attemps</th>
+      <th>Total rushing yards</th>
+      <th>Rushing average yards per attempt</th>
+      <th>Rushing yards per game</th>
+      <th>Rushing touchdowns</th>
+      <th>Longest rush</th>
+      <th>Longest rush had a touchdown?</th>
+      <th>Rushing first downs</th>
+      <th>Rushing first down percentage</th>
+      <th>Rushing 20 yards each</th>
+      <th>Rushing 40 yards each</th>
+      <th>Fumbles</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="players">
+    <%= for player <- @players do %>
+      <tr id="player-<%= player.id %>">
+        <td><%= player.name %></td>
+        <td><%= player.team %></td>
+        <td><%= player.position %></td>
+        <td><%= player.attempts_per_game %></td>
+        <td><%= player.rushing_attemps %></td>
+        <td><%= player.total_rushing_yards %></td>
+        <td><%= player.rushing_average_yards_per_attempt %></td>
+        <td><%= player.rushing_yards_per_game %></td>
+        <td><%= player.rushing_touchdowns %></td>
+        <td><%= player.longest_rush %></td>
+        <td><%= player.longest_rush_had_a_touchdown? %></td>
+        <td><%= player.rushing_first_downs %></td>
+        <td><%= player.rushing_first_down_percentage %></td>
+        <td><%= player.rushing_20_yards_each %></td>
+        <td><%= player.rushing_40_yards_each %></td>
+        <td><%= player.fumbles %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
