@@ -11,7 +11,7 @@ defmodule NflRushing.Factory do
       fumbles: random_integer(),
       longest_rush: random_integer(),
       longest_rush_had_a_touchdown?: random_boolean(),
-      name: Faker.Person.name(),
+      name: Faker.Person.first_name(),
       position: "RB",
       rushing_20_yards_each: random_integer(),
       rushing_40_yards_each: random_integer(),
@@ -28,7 +28,7 @@ defmodule NflRushing.Factory do
 
   def importable_data_factory do
     %{
-      "Player" => Faker.Person.name(),
+      "Player" => Faker.Person.first_name(),
       "Team" => "GB",
       "Pos" => "RB",
       "Att" => 10,
