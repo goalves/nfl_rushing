@@ -20,9 +20,6 @@ defmodule NflRushing.Repo.Migrations.CreatePlayers do
       add :rushing_20_yards_each, :integer
       add :rushing_40_yards_each, :integer
       add :fumbles, :integer
-
-      timestamps()
     end
-
   end
 end
