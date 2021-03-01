@@ -4,8 +4,9 @@ defmodule NflRushing.Records do
   """
 
   import Ecto.Query, warn: false
-  alias NflRushing.Repo
 
+  alias Ecto.UUID
+  alias NflRushing.Repo
   alias NflRushing.Records.Player
 
   @doc """
@@ -22,83 +23,20 @@ defmodule NflRushing.Records do
   end
 
   @doc """
-  Gets a single player.
-
-  Raises `Ecto.NoResultsError` if the Player does not exist.
-
-  ## Examples
-
-      iex> get_player!(123)
-      %Player{}
-
-      iex> get_player!(456)
-      ** (Ecto.NoResultsError)
-
+  Insert a list of players.
   """
-  def get_player!(id), do: Repo.get!(Player, id)
+  @spec insert_players([Player.t()]) :: {:ok, integer()}
+  def insert_players(players) when is_list(players) do
+    players_data = Enum.map(players, &prepare_insert/1)
 
-  @doc """
-  Creates a player.
-
-  ## Examples
-
-      iex> create_player(%{field: value})
-      {:ok, %Player{}}
-
-      iex> create_player(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_player(attrs \\ %{}) do
-    %Player{}
-    |> Player.changeset(attrs)
-    |> Repo.insert()
+    Player
+    |> Repo.insert_all(players_data)
+    |> case do
+      {inserted_values, _} when is_integer(inserted_values) -> {:ok, inserted_values}
+      error -> {:error, error}
+    end
   end
 
-  @doc """
-  Updates a player.
-
-  ## Examples
-
-      iex> update_player(player, %{field: new_value})
-      {:ok, %Player{}}
-
-      iex> update_player(player, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_player(%Player{} = player, attrs) do
-    player
-    |> Player.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a player.
-
-  ## Examples
-
-      iex> delete_player(player)
-      {:ok, %Player{}}
-
-      iex> delete_player(player)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_player(%Player{} = player) do
-    Repo.delete(player)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking player changes.
-
-  ## Examples
-
-      iex> change_player(player)
-      %Ecto.Changeset{data: %Player{}}
-
-  """
-  def change_player(%Player{} = player, attrs \\ %{}) do
-    Player.changeset(player, attrs)
-  end
+  defp prepare_insert(player = %Player{}),
+    do: player |> Map.drop([:__meta__, :__struct__]) |> Map.put(:id, UUID.generate())
 end
