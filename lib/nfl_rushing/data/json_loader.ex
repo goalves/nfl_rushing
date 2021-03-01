@@ -10,6 +10,7 @@ defmodule NflRushing.Data.JSONLoader do
   require Logger
 
   @impl Loader
+  # sobelow_skip ["Traversal"]
   def load(source) when is_binary(source) do
     expanded_path = Path.expand(source)
     Logger.info("Loading file data from #{expanded_path}")
