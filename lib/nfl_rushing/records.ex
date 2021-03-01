@@ -6,8 +6,8 @@ defmodule NflRushing.Records do
   import Ecto.Query, warn: false
 
   alias Ecto.UUID
-  alias NflRushing.Repo
   alias NflRushing.Records.Player
+  alias NflRushing.Repo
 
   @doc """
   Returns the list of players.
