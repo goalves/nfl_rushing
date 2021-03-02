@@ -2,7 +2,7 @@ defmodule NflRushingWeb.Router do
   use NflRushingWeb, :router
 
   @host :nfl_rushing
-        |> Application.fetch_env!(NflRushingWeb.Endpoint)
+        |> Application.compile_env!(NflRushingWeb.Endpoint)
         |> Keyword.fetch!(:url)
         |> Keyword.fetch!(:host)
 
