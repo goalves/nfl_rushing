@@ -12,6 +12,12 @@
       ], selected: @sort_field %>
     <%= submit "Apply", phx_disable_with: "Sorting data..." %>
   </form>
+
+  <%= f = form_for :filtering, "#", id: "filtering-form", phx_submit: "filter_data"%>
+    <%= label f, "Name Filtering" %>
+    <%= text_input f, :name %>
+    <%= submit "Apply", phx_disable_with: "Filtering data..." %>
+  </form>
 </div>
 
 <table>

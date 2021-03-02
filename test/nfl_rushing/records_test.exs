@@ -20,7 +20,7 @@ defmodule NflRushing.RecordsTest do
         |> Enum.map(fn _ -> insert(:player) end)
         |> Enum.sort_by(& &1.name, &<=/2)
 
-      options = sorting_params: %SortingParams{ordering: :asc, field: :name}
+      options = [sorting_params: %SortingParams{ordering: :asc, field: :name}]
       assert [first_player, second_player] == Records.list_players(options)
     end
 
