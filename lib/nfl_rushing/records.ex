@@ -7,7 +7,7 @@ defmodule NflRushing.Records do
 
   alias Ecto.UUID
   alias NflRushing.Records.Player
-  alias NflRushing.Repo
+  alias NflRushing.{Query, Repo}
 
   @doc """
   Returns the list of players.
@@ -18,8 +18,12 @@ defmodule NflRushing.Records do
       [%Player{}, ...]
 
   """
-  def list_players do
-    Repo.all(Player)
+  def list_players(opts \\ []) do
+    sorting_params = Keyword.get(opts, :sorting_params)
+
+    Player
+    |> Query.sort(sorting_params)
+    |> Repo.all()
   end
 
   @doc """

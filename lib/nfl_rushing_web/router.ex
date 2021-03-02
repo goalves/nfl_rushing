@@ -1,13 +1,20 @@
 defmodule NflRushingWeb.Router do
   use NflRushingWeb, :router
 
+  @host :nfl_rushing
+        |> Application.compile_env!(NflRushingWeb.Endpoint)
+        |> Keyword.fetch!(:url)
+        |> Keyword.fetch!(:host)
+
+  @csp "default-src 'self' 'unsafe-eval';connect-src ws://#{@host}:4000"
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, {NflRushingWeb.LayoutView, :root}
     plug :protect_from_forgery
-    plug :put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'"}
+    plug :put_secure_browser_headers, %{"content-security-policy" => @csp}
   end
 
   pipeline :api do
