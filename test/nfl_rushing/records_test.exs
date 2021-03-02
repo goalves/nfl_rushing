@@ -6,17 +6,24 @@ defmodule NflRushing.RecordsTest do
   alias Ecto.UUID
   alias NflRushing.{Records, Repo}
   alias NflRushing.Records.Player
-
-  defp create_player(_) do
-    player = insert(:player)
-    %{player: player}
-  end
+  alias NflRushing.Query.SortingParams
 
   describe "list_players/0" do
-    setup [:create_player]
-
-    test "returns all players", %{player: player} do
+    test "returns all players" do
+      player = insert(:player)
       assert Records.list_players() == [player]
+    end
+
+    test "returns all players sorted" do
+      players =
+        ["A", "B"]
+        |> Enum.shuffle()
+        |> Enum.map(fn name -> insert(:player, name: name) end)
+
+      a_player = Enum.find(players, &(&1.name == "A"))
+      b_player = Enum.find(players, &(&1.name == "B"))
+
+      assert [a_player, b_player] == Records.list_players(sorting_params: %SortingParams{ordering: :asc, field: :name})
     end
   end
 
