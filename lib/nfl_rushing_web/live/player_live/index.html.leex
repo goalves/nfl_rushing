@@ -1,4 +1,18 @@
-<h1>Listing Players</h1>
+<h1>Players</h1>
+
+<div>
+  <%= f = form_for :sorting, "#", id: "sorting-form", phx_submit: "sort_data"%>
+    <%= label f, :sorting %>
+    <%= select f, :order, [{"Descending", "desc"}, {"Ascending", "asc"}], selected: @sort_order %>
+    <%= select f, :field, [
+        {"Name", "name"},
+        {"Yds", "total_rushing_yards"},
+        {"Lng", "longest_rush"},
+        {"TD", "rushing_touchdowns"}
+      ], selected: @sort_field %>
+    <%= submit "Apply", phx_disable_with: "Sorting data..." %>
+  </form>
+</div>
 
 <table>
   <thead>
