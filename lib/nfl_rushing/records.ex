@@ -20,9 +20,11 @@ defmodule NflRushing.Records do
   """
   def list_players(opts \\ []) do
     sorting_params = Keyword.get(opts, :sorting_params)
+    filtering_params = Keyword.get(opts, :filtering_params)
 
     Player
     |> Query.sort(sorting_params)
+    |> Query.filter(filtering_params)
     |> Repo.all()
   end
 

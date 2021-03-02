@@ -28,6 +28,22 @@ defmodule NflRushingWeb.PlayerLiveTest do
       assert html =~ "Sorting data..."
       assert html =~ Regex.compile!("#{first_player.name}.*#{second_player.name}")
     end
+
+    test "filters players", %{conn: conn} do
+      first_player = insert(:player, name: "John")
+      second_player = insert(:player, name: "Doe")
+
+      {:ok, index_live, _html} = live(conn, Routes.player_index_path(conn, :index))
+
+      html =
+        index_live
+        |> form("#filtering-form", filtering: %{name: first_player.name})
+        |> render_submit()
+
+      assert html =~ "Filtering data..."
+      assert html =~ first_player.name
+      refute html =~ second_player.name
+    end
   end
 
   describe "index_format_longest_rush/1" do

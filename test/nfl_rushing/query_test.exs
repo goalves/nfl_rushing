@@ -2,7 +2,7 @@ defmodule NflRushing.QueryTest do
   use NflRushing.DataCase
 
   alias NflRushing.Query
-  alias NflRushing.Query.SortingParams
+  alias NflRushing.Query.{FilteringParams, SortingParams}
 
   defmodule TestQueriable do
     use Ecto.Schema
@@ -26,5 +26,23 @@ defmodule NflRushing.QueryTest do
 
     test "returns the given queriable if nil argument is passed",
       do: assert(TestQueriable == Query.sort(TestQueriable, nil))
+  end
+
+  describe "filter/2" do
+    test "returns a query filtered with an ilike sentence for a contains string filter" do
+      field = :field
+      filter = Faker.Person.first_name()
+
+      filtering_params = %FilteringParams{contains_string_filter: filter, field: field}
+      queriable = Query.filter(TestQueriable, filtering_params)
+
+      expected_query =
+        ~s"#Ecto.Query<from t0 in NflRushing.QueryTest.TestQueriable, where: ilike(t0.#{field}, ^\"%#{filter}%\")>"
+
+      assert inspect(queriable) == expected_query
+    end
+
+    test "returns the given queriable if nil argument is passed",
+      do: assert(TestQueriable == Query.filter(TestQueriable, nil))
   end
 end
