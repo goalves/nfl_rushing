@@ -15,13 +15,11 @@ defmodule NflRushing.RecordsTest do
     end
 
     test "returns all players sorted" do
-      players =
+      [a_player, b_player] =
         ["A", "B"]
         |> Enum.shuffle()
         |> Enum.map(fn name -> insert(:player, name: name) end)
-
-      a_player = Enum.find(players, &(&1.name == "A"))
-      b_player = Enum.find(players, &(&1.name == "B"))
+        |> Enum.sort_by(& &1.name, &>=/2)
 
       assert [a_player, b_player] == Records.list_players(sorting_params: %SortingParams{ordering: :asc, field: :name})
     end
