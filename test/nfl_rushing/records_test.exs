@@ -4,9 +4,9 @@ defmodule NflRushing.RecordsTest do
   import NflRushing.Factory
 
   alias Ecto.UUID
-  alias NflRushing.{Records, Repo}
-  alias NflRushing.Records.Player
   alias NflRushing.Query.SortingParams
+  alias NflRushing.Records.Player
+  alias NflRushing.{Records, Repo}
 
   describe "list_players/0" do
     test "returns all players" do

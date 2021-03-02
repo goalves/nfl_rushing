@@ -1,10 +1,10 @@
 defmodule NflRushingWeb.PlayerLive.Index do
   use NflRushingWeb, :live_view
 
-  alias Phoenix.LiveView.Socket
+  alias NflRushing.Query.SortingParams
   alias NflRushing.Records
   alias NflRushing.Records.Player
-  alias NflRushing.Query.SortingParams
+  alias Phoenix.LiveView.Socket
 
   @valid_sorting_fields [
     :name,
