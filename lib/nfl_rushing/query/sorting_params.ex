@@ -27,7 +27,7 @@ defmodule NflRushing.Query.SortingParams do
     end
   end
 
-  defp build_struct(base = %__MODULE__{}, acceptable_fields) do
+  defp build_struct(base = %__MODULE__{}, acceptable_fields) when is_list(acceptable_fields) do
     if acceptable_fields |> Enum.map(&Atom.to_string/1) |> Enum.member?(base.field) do
       struct = %__MODULE__{field: String.to_existing_atom(base.field), ordering: String.to_existing_atom(base.ordering)}
       {:ok, struct}
