@@ -1,7 +1,7 @@
 <h1>Players</h1>
 
-<div>
-  <%= f = form_for :sorting, "#", id: "sorting-form", phx_submit: "sort_data"%>
+<div class="table header">
+  <%= f = form_for :sorting, "#", id: "sorting-form", phx_submit: "sort_data", class: "element"%>
     <%= label f, :sorting %>
     <%= select f, :order, [{"Descending", "desc"}, {"Ascending", "asc"}], selected: @sort_order %>
     <%= select f, :field, [
@@ -13,11 +13,21 @@
     <%= submit "Apply", phx_disable_with: "Sorting data..." %>
   </form>
 
-  <%= f = form_for :filtering, "#", id: "filtering-form", phx_submit: "filter_data"%>
-    <%= label f, "Name Filtering" %>
-    <%= text_input f, :name %>
-    <%= submit "Apply", phx_disable_with: "Filtering data..." %>
-  </form>
+  <div class="filter">
+    <%= f = form_for :filtering, "#", id: "filtering-form", phx_submit: "filter_data"%>
+      <%= label f, "Name Filtering" %>
+      <%= text_input f, :name, selected: @filtering_name, class: "filter input" %>
+      <%= submit "Apply", phx_disable_with: "Filtering data..." %>
+    </form>
+  </div>
+
+  <%= link("Download CSV",
+      to: Routes.player_path(@socket, :export_csv,
+        filtering_name: @filtering_name,
+        sort_field: @sort_field,
+        sort_order: @sort_order),
+      method: :post, class: "button")
+  %>
 </div>
 
 <table>

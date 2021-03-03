@@ -1,11 +1,11 @@
 defmodule NflRushing.Data.Importer do
   @moduledoc """
-  Module responsible for importing contents of a stream containting players data to the database.
+  Module responsible for importing contents of a map containting players data to the database.
   """
 
   require Logger
 
-  alias NflRushing.Data.Parser
+  alias NflRushing.Data.PlayerParser
   alias NflRushing.Records.Player
   alias NflRushing.{Records, Repo}
 
@@ -20,7 +20,7 @@ defmodule NflRushing.Data.Importer do
 
     data
     |> Flow.from_enumerable()
-    |> Flow.map(&Parser.parse_record/1)
+    |> Flow.map(&PlayerParser.parse_record/1)
     |> Enum.to_list()
     |> Enum.reduce(%{success: [], failure: []}, fn
       {:ok, value}, acc -> %{acc | success: [value | acc.success]}

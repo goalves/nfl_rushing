@@ -1,5 +1,5 @@
 defmodule NflRushing.Data do
-  alias NflRushing.Data.Importer
+  alias NflRushing.Data.{Exporter, Importer, PlayerEncoder}
   alias NflRushing.Records.Player
 
   @spec import_from_file(binary(), keyword()) :: {:ok, [Player.t()]} | {:error, any()}
@@ -11,4 +11,8 @@ defmodule NflRushing.Data do
   end
 
   def loader, do: Application.get_env(:nfl_rushing, __MODULE__)[:loader]
+
+  @spec export_as_csv(list()) :: binary()
+  def export_as_csv(contents) when is_list(contents),
+    do: Exporter.run(contents, &PlayerEncoder.encode/1)
 end

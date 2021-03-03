@@ -1,0 +1,12 @@
+.table.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter {
+  width: 50rem;
+}
+
+.filter.input {
+  max-width: 30rem;
+}
