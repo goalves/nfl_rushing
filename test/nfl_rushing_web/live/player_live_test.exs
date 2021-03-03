@@ -44,6 +44,22 @@ defmodule NflRushingWeb.PlayerLiveTest do
       assert html =~ first_player.name
       refute html =~ second_player.name
     end
+
+    test "paginates players", %{conn: conn} do
+      insert_list(25, :player)
+      other_player = insert(:player, name: "some random name")
+
+      {:ok, index_live, _html} = live(conn, Routes.player_index_path(conn, :index))
+      assert index_live |> element("#change-page-2") |> render_click() =~ other_player.name
+    end
+
+    test "change pagination size", %{conn: conn} do
+      insert_list(10, :player)
+      other_player = insert(:player, name: "some random name")
+
+      {:ok, index_live, _html} = live(conn, Routes.player_index_path(conn, :index))
+      refute index_live |> form("#change-page-size") |> render_change(%{page_size: 10}) =~ other_player.name
+    end
   end
 
   describe "index_format_longest_rush/1" do
