@@ -19,13 +19,27 @@ defmodule NflRushing.Records do
 
   """
   def list_players(opts \\ []) do
+    opts
+    |> list_players_query()
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns a list of players paginated.
+  """
+  def list_players_paginated(pagination_params, opts \\ []) do
+    opts
+    |> list_players_query()
+    |> Repo.paginate(pagination_params)
+  end
+
+  defp list_players_query(opts) do
     sorting_params = Keyword.get(opts, :sorting_params)
     filtering_params = Keyword.get(opts, :filtering_params)
 
     Player
     |> Query.sort(sorting_params)
     |> Query.filter(filtering_params)
-    |> Repo.all()
   end
 
   @doc """
