@@ -1,7 +1,10 @@
 defmodule NflRushing.Data.PlayerEncoder do
   alias NflRushing.Records.Player
+  alias NflRushing.Data.Encoder
 
-  @spec encode(Player.t()) :: map()
+  @behaviour Encoder
+
+  @impl Encoder
   def encode(player = %Player{}) do
     touchdown_identifier = if player.longest_rush_had_a_touchdown?, do: "T", else: ""
     longest_rush_with_touchdown = "#{player.longest_rush}" <> touchdown_identifier
