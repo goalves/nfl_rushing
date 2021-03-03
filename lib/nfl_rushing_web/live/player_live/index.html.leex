@@ -1,25 +1,9 @@
-<h1>Players</h1>
+<h1>NFL Rushing</h1>
 
 <div class="table header">
-  <%= f = form_for :sorting, "#", id: "sorting-form", phx_submit: "sort_data", class: "element"%>
-    <%= label f, :sorting %>
-    <%= select f, :order, [{"Descending", "desc"}, {"Ascending", "asc"}], selected: @sort_order %>
-    <%= select f, :field, [
-        {"Name", "name"},
-        {"Yds", "total_rushing_yards"},
-        {"Lng", "longest_rush"},
-        {"TD", "rushing_touchdowns"}
-      ], selected: @sort_field %>
-    <%= submit "Apply", phx_disable_with: "Sorting data..." %>
+  <form id="filtering-form" phx-change="filter" class="filter">
+    <input type="text" name="filtering" value="<%= @filtering_name %>" placeholder="Search for a Player Name..." phx-debounce="blur"/>
   </form>
-
-  <div class="filter">
-    <%= f = form_for :filtering, "#", id: "filtering-form", phx_submit: "filter_data"%>
-      <%= label f, "Name Filtering" %>
-      <%= text_input f, :name, selected: @filtering_name, class: "filter input" %>
-      <%= submit "Apply", phx_disable_with: "Filtering data..." %>
-    </form>
-  </div>
 
   <%= link("Download CSV",
       to: Routes.player_path(@socket, :export_csv,
@@ -29,20 +13,27 @@
       method: :post, class: "button")
   %>
 </div>
-
 <table>
   <thead>
     <tr>
-      <th>Player</th>
+      <th phx-click="sort" phx-value-field="name" class="clickable" id="sort-name">
+        Player <%= sort_order_icon("name", @sort_field, @sort_order) %>
+      </th>
       <th>Team</th>
       <th>Pos</th>
       <th>Att/G</th>
       <th>Att</th>
-      <th>Yds</th>
+      <th phx-click="sort" phx-value-field="total_rushing_yards" class="clickable" id="sort-yards">
+        Yds <%= sort_order_icon("total_rushing_yards", @sort_field, @sort_order) %>
+      </th>
       <th>Avg</th>
       <th>Yds/G</th>
-      <th>TD</th>
-      <th>Lng</th>
+      <th phx-click="sort" phx-value-field="rushing_touchdowns" class="clickable" id="sort-td">
+        TD <%= sort_order_icon("rushing_touchdowns", @sort_field, @sort_order) %>
+      </th>
+      <th phx-click="sort" phx-value-field="longest_rush" class="clickable" id="sort-rush">
+        Lng <%= sort_order_icon("longest_rush", @sort_field, @sort_order) %>
+      </th>
       <th>1st</th>
       <th>1st%</th>
       <th>20+</th>

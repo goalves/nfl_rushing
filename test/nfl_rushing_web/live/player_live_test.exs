@@ -11,7 +11,6 @@ defmodule NflRushingWeb.PlayerLiveTest do
       player = insert(:player)
       {:ok, _index_live, html} = live(conn, Routes.player_index_path(conn, :index))
 
-      assert html =~ "Players"
       assert html =~ player.name
     end
 
@@ -20,13 +19,10 @@ defmodule NflRushingWeb.PlayerLiveTest do
 
       {:ok, index_live, _html} = live(conn, Routes.player_index_path(conn, :index))
 
-      html =
-        index_live
-        |> form("#sorting-form", sorting: %{order: "desc", field: "name"})
-        |> render_submit()
-
-      assert html =~ "Sorting data..."
-      assert html =~ Regex.compile!("#{first_player.name}.*#{second_player.name}")
+      assert index_live
+             |> element("#sort-name")
+             |> render_click(%{field: "total_rushing_yards"}) =~
+               Regex.compile!("#{first_player.name}.*#{second_player.name}")
     end
 
     test "filters players", %{conn: conn} do
@@ -37,10 +33,9 @@ defmodule NflRushingWeb.PlayerLiveTest do
 
       html =
         index_live
-        |> form("#filtering-form", filtering: %{name: first_player.name})
-        |> render_submit()
+        |> form("#filtering-form")
+        |> render_change(%{filtering: "#{first_player.name}"})
 
-      assert html =~ "Filtering data..."
       assert html =~ first_player.name
       refute html =~ second_player.name
     end
