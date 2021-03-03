@@ -64,7 +64,8 @@ defmodule NflRushing.MixProject do
       {:flow, "~> 1.0"},
       {:ex_machina, "~> 2.6.0", only: :test},
       {:faker, "~> 0.16", only: :test},
-      {:mox, "~> 1.0", only: :test}
+      {:mox, "~> 1.0", only: :test},
+      {:scrivener_ecto, "~> 2.0"}
     ]
   end
 
