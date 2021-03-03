@@ -19,6 +19,8 @@ defmodule NflRushingWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+    post "/players/export", NflRushingWeb.PlayerController, :export_csv
   end
 
   scope "/", NflRushingWeb do
