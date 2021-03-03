@@ -5,7 +5,7 @@ defmodule NflRushing.Data.Importer do
 
   require Logger
 
-  alias NflRushing.Data.Parser
+  alias NflRushing.Data.PlayerParser
   alias NflRushing.Records.Player
   alias NflRushing.{Records, Repo}
 
@@ -20,7 +20,7 @@ defmodule NflRushing.Data.Importer do
 
     data
     |> Flow.from_enumerable()
-    |> Flow.map(&Parser.parse_record/1)
+    |> Flow.map(&PlayerParser.parse_record/1)
     |> Enum.to_list()
     |> Enum.reduce(%{success: [], failure: []}, fn
       {:ok, value}, acc -> %{acc | success: [value | acc.success]}

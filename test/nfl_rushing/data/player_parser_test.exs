@@ -1,11 +1,11 @@
-defmodule NflRushing.Data.ParserTest do
+defmodule NflRushing.Data.PlayerParserTest do
   use NflRushing.DataCase
 
   import ExUnit.CaptureLog
   import NflRushing.Factory
 
   alias Ecto.Changeset
-  alias NflRushing.Data.Parser
+  alias NflRushing.Data.PlayerParser
   alias NflRushing.Records.Player
 
   defp build_importable_data(_), do: %{data: params_for(:importable_data)}
@@ -15,7 +15,7 @@ defmodule NflRushing.Data.ParserTest do
 
     test "parses an expected map structure into a NflRushing.Records.Player structure", %{data: data} do
       {lng, _} = Integer.parse(data["Lng"])
-      assert {:ok, player = %Player{}} = Parser.parse_record(data)
+      assert {:ok, player = %Player{}} = PlayerParser.parse_record(data)
 
       assert player.name == data["Player"]
       assert player.team == data["Team"]
@@ -39,22 +39,22 @@ defmodule NflRushing.Data.ParserTest do
       data_with_touchdowns = Map.put(data, "Lng", "42T")
 
       assert {:ok, %Player{longest_rush: 42, longest_rush_had_a_touchdown?: true}} =
-               Parser.parse_record(data_with_touchdowns)
+               PlayerParser.parse_record(data_with_touchdowns)
     end
 
     test "parses total rushing yards separated by commas", %{data: data} do
       data_with_rushing_yards_separated_by_commas = Map.put(data, "Yds", "1,234")
 
       assert {:ok, %Player{total_rushing_yards: 1234.0}} =
-               Parser.parse_record(data_with_rushing_yards_separated_by_commas)
+               PlayerParser.parse_record(data_with_rushing_yards_separated_by_commas)
     end
 
     test "logs an error when fails to parse" do
-      parse_function = fn -> assert {:error, %Changeset{}} = Parser.parse_record(%{}) end
+      parse_function = fn -> assert {:error, %Changeset{}} = PlayerParser.parse_record(%{}) end
       assert capture_log(parse_function) =~ "Failed to parse element:"
     end
 
     test "returns an error with invalid data if provided data is not a map",
-      do: assert({:error, :invalid_data} = Parser.parse_record([]))
+      do: assert({:error, :invalid_data} = PlayerParser.parse_record([]))
   end
 end

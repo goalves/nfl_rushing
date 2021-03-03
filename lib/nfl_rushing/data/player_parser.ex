@@ -1,4 +1,4 @@
-defmodule NflRushing.Data.Parser do
+defmodule NflRushing.Data.PlayerParser do
   require Logger
   alias NflRushing.Records.Player
 
