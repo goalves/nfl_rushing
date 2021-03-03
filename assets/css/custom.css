@@ -4,9 +4,17 @@
 }
 
 .filter {
-  width: 50rem;
+  width: 100rem;
 }
 
 .filter.input {
   max-width: 30rem;
+}
+
+thead {
+  font-size: 2.5em;
+}
+
+.clickable {
+  cursor: pointer;
 }

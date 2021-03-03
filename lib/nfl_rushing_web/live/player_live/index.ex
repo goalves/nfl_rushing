@@ -18,15 +18,13 @@ defmodule NflRushingWeb.PlayerLive.Index do
   end
 
   defp apply_action(socket, :index, _params) do
-    assign(socket, :page_title, "Players")
+    assign(socket, :page_title, "NFL Rushing")
   end
 
   @impl true
-  def handle_event(
-        "sort_data",
-        %{"sorting" => %{"order" => order, "field" => field}},
-        socket = %Socket{}
-      ) do
+  def handle_event("sort", %{"field" => field}, socket = %Socket{}) do
+    order = cycle_sort_order(socket.assigns.sort_order)
+
     {:noreply,
      socket
      |> assign(sort_order: order, sort_field: field)
@@ -34,7 +32,7 @@ defmodule NflRushingWeb.PlayerLive.Index do
   end
 
   @impl true
-  def handle_event("filter_data", %{"filtering" => %{"name" => name}}, socket = %Socket{}) do
+  def handle_event("filter", %{"filtering" => name}, socket = %Socket{}) do
     {:noreply,
      socket
      |> assign(filtering_name: name)
@@ -85,6 +83,14 @@ defmodule NflRushingWeb.PlayerLive.Index do
 
     "#{player.longest_rush}#{touchdown_identifier}"
   end
+
+  defp sort_order_icon(column, sort_field, "asc") when column == sort_field, do: "▲"
+  defp sort_order_icon(column, sort_field, "desc") when column == sort_field, do: "▼"
+  defp sort_order_icon(_, _, _), do: "↕️"
+
+  defp cycle_sort_order("asc"), do: "desc"
+  defp cycle_sort_order("desc"), do: ""
+  defp cycle_sort_order(_), do: "asc"
 
   defp assign_defaults(socket = %Socket{}) do
     socket
