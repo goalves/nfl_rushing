@@ -1,6 +1,6 @@
 defmodule NflRushing.Data.Importer do
   @moduledoc """
-  Module responsible for importing contents of a stream containting players data to the database.
+  Module responsible for importing contents of a map containting players data to the database.
   """
 
   require Logger
