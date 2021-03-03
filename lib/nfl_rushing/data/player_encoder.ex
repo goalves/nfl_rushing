@@ -1,6 +1,6 @@
 defmodule NflRushing.Data.PlayerEncoder do
-  alias NflRushing.Records.Player
   alias NflRushing.Data.Encoder
+  alias NflRushing.Records.Player
 
   @behaviour Encoder
 
